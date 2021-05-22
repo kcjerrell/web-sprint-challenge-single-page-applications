@@ -36,7 +36,7 @@ const App = () => {
       </Route>
 
       <Route path="/ordersuccess" exact>
-        <OrderSuccess/>
+        <OrderSuccess order={order}/>
       </Route>
 
     </AppContainer>

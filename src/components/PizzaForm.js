@@ -1,36 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { pizzaSauces, pizzaSizes, pizzaToppings } from "../pizzaOptions";
 import CheckList from "./CheckList";
 import ComboBox from "./ComboBox";
-
-const pizzaSizes = [
-	'Extra Large (18in)',
-	'Large (14in)',
-	'Medium (11in)',
-	'Small (8in)'
-];
-const pizzaToppings = [
-	'Pepperoni',
-	'Sausage',
-	'Extra Cheese',
-	'Green Peppers',
-	'Mushrooms',
-	'Olives',
-	'Onions',
-	'Jalepeno'
-];
-const pizzaSauces = [
-	'Pizza Sauce',
-	'No Sauce',
-	'White Sauce',
-	'BarbecueSauce'
-]
+import pizzaSchema from "../pizzaFormSchema";
+import * as yup from 'yup';
+import schema from "../pizzaFormSchema";
 
 const emptyFormValues = {
 	orderName: '',
 	size: '',
 	sauce: '',
 	special: '',
+}
+
+const emptyFormErrors = {
+	orderName: '',
+	sauce: '',
+	size: '',
 }
 
 pizzaToppings.forEach(pt => {
@@ -46,11 +33,26 @@ const PizzaForm = props => {
 	const { submit } = props;
 
 	const [formValues, setFormValues] = useState(emptyFormValues);
+	const [formErrors, setFormErrors] = useState(emptyFormErrors);
+	const [disableSubmit, setDisableSubmit] = useState(true);
+
+	useEffect(() => {
+		schema.isValid(formValues).then(valid => setDisableSubmit(!valid));
+	}, [formValues]);
+
+	const validate = (name, value) => {
+		yup.reach(pizzaSchema, name)
+			.validate(value)
+			.then(() => setFormErrors({ ...formErrors, [name]: '' }))
+			.catch(err => setFormErrors({ ...formErrors, [name]: err.errors[0] }));
+	};
 
 	const onChange = e => {
 		console.log(e);
 		const { name, value, checked, type } = e.target;
 		const valueToUse = type === 'checkbox' ? checked : value;
+
+		validate(name, valueToUse);
 
 		setFormValues({ ...formValues, [name]: valueToUse });
 	};
@@ -119,7 +121,14 @@ const PizzaForm = props => {
 						id='special-text' />
 				</label>
 
-				<button id='order-button'>Submit</button>
+				<button id='order-button' disabled={disableSubmit}>Submit</button>
+
+				<div>
+					<div>{formErrors.orderName}</div>
+					<div>{formErrors.size}</div>
+					<div>{formErrors.sauce}</div>
+				</div>
+
 			</form>
 		</Container>
 	);
