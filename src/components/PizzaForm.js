@@ -62,8 +62,6 @@ const PizzaForm = props => {
 		submit(formValues);
 	};
 
-	console.log(formValues);
-
 	return (
 		<Container>
 			<form id='pizza-form' onSubmit={onSubmit}>
