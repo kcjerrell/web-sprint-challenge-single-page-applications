@@ -43,7 +43,7 @@ const Container = styled.div`
 
 
 const PizzaForm = props => {
-	const { submitForm } = props.submit;
+	const { submit } = props;
 
 	const [formValues, setFormValues] = useState(emptyFormValues);
 
@@ -55,11 +55,16 @@ const PizzaForm = props => {
 		setFormValues({ ...formValues, [name]: valueToUse });
 	};
 
+	const onSubmit = e => {
+		e.preventDefault();
+		submit(formValues);
+	};
+
 	console.log(formValues);
 
 	return (
 		<Container>
-			<form>
+			<form id='pizza-form' onSubmit={onSubmit}>
 
 				<h3>Build Your Own Pizza</h3>
 				<img src='./x.png' alt='placeholder' />
@@ -71,7 +76,8 @@ const PizzaForm = props => {
 					<ComboBox name='size'
 						value={formValues.size}
 						onChange={onChange}
-						items={pizzaSizes} />
+						items={pizzaSizes}
+						id='size-dropdown' />
 				</label>
 
 				<label>
@@ -99,7 +105,8 @@ const PizzaForm = props => {
 						type='text'
 						name='orderName'
 						value={formValues.orderName}
-						onChange={onChange} />
+						onChange={onChange}
+						id='name-input' />
 				</label>
 
 				<label>
@@ -108,10 +115,11 @@ const PizzaForm = props => {
 						type='text'
 						name='special'
 						value={formValues.special}
-						onChange={onChange} />
+						onChange={onChange}
+						id='special-text' />
 				</label>
 
-				<button>Submit</button>
+				<button id='order-button'>Submit</button>
 			</form>
 		</Container>
 	);
