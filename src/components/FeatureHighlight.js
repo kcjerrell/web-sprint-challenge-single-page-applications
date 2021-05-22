@@ -30,7 +30,7 @@ const FeatureHighlight = props => {
 	return (
 		<Container>
 			<h2>Your favorite food, delivered while coding</h2>
-			<StyledLink to='/orderPizza'>Pizza?</StyledLink>
+			<StyledLink to='/order-Pizza' id='order-pizza'>Pizza?</StyledLink>
 		</Container>
 	);
 };

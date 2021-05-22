@@ -3,6 +3,8 @@ import styled from "styled-components";
 import FeatureHighlight from "./components/FeatureHighlight";
 import Header from "./components/Header";
 import RestaurantList from "./components/RestaurantsList";
+import { Route } from "react-router-dom";
+import PizzaForm from "./components/PizzaForm";
 
 const AppContainer = styled.div`
     background-color: #eef2ee;
@@ -11,11 +13,22 @@ const AppContainer = styled.div`
   `;
 
 const App = () => {
+
+  const submitOrder = () => { };
+
   return (
     <AppContainer>
       <Header />
-      <FeatureHighlight />
-      <RestaurantList />
+
+      <Route path="/" exact>
+        <FeatureHighlight />
+        <RestaurantList />
+      </Route>
+
+      <Route path="/order-pizza" exact>
+        <PizzaForm submit={submitOrder}/>
+      </Route>
+
     </AppContainer>
   );
 };
