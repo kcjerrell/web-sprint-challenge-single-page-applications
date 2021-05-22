@@ -13,6 +13,13 @@ const AppContainer = styled.div`
     margin: auto;
   `;
 
+  const secretStyle = {
+    margin: '-24px 8px 0px 0px',
+    color: 'white',
+    textAlign: 'right',
+    fontSize: 'x-small',
+}
+
 const App = () => {
   const [order, setOrder] = useState();
   const history = useHistory();
@@ -20,7 +27,7 @@ const App = () => {
   const submitOrder = (newOrder) => {
     setOrder(newOrder);
     history.push('/ordersuccess');
-   };
+  };
 
   return (
     <AppContainer>
@@ -28,15 +35,16 @@ const App = () => {
 
       <Route path="/" exact>
         <FeatureHighlight />
+        <p style={secretStyle}>I spent too much time on this page</p>
         <RestaurantList />
       </Route>
 
       <Route path="/pizza" exact>
-        <PizzaForm submit={submitOrder}/>
+        <PizzaForm submit={submitOrder} />
       </Route>
 
       <Route path="/ordersuccess" exact>
-        <OrderSuccess order={order}/>
+        <OrderSuccess order={order} />
       </Route>
 
     </AppContainer>
