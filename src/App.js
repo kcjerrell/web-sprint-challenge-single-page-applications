@@ -6,6 +6,7 @@ import RestaurantList from "./components/RestaurantsList";
 import { Route, useHistory } from "react-router-dom";
 import PizzaForm from "./components/PizzaForm";
 import OrderSuccess from "./components/OrderSuccess";
+import axios from "axios";
 
 const AppContainer = styled.div`
     background-color: #eef2ee;
@@ -13,11 +14,11 @@ const AppContainer = styled.div`
     margin: auto;
   `;
 
-  const secretStyle = {
-    margin: '-24px 8px 0px 0px',
-    color: 'white',
-    textAlign: 'right',
-    fontSize: 'x-small',
+const secretStyle = {
+  margin: '-24px 8px 0px 0px',
+  color: 'white',
+  textAlign: 'right',
+  fontSize: 'x-small',
 }
 
 const App = () => {
@@ -25,8 +26,12 @@ const App = () => {
   const history = useHistory();
 
   const submitOrder = (newOrder) => {
-    setOrder(newOrder);
-    history.push('/ordersuccess');
+    axios.post('https://reqres.in/api/orders', newOrder)
+      .then(res => {
+        setOrder(res.data);
+        history.push('/ordersuccess');
+      })
+      .catch(reason => console.log(reason));
   };
 
   return (
