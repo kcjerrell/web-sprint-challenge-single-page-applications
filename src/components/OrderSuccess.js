@@ -11,7 +11,7 @@ const OrderSuccess = props => {
 
 	return (
 		<Container>
-			<div>Success!</div>
+			<div>Your order has been placed! And we didn't even need an address or payment! Enjoy!</div>
 			<div>
 				{dispOrder.map((d, i) => {
 					return (
